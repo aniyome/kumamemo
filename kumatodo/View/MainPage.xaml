@@ -35,6 +35,7 @@
             <!-- メモ入力 -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal">
                 <Entry Text="" HorizontalOptions="FillAndExpand" />
+                <Button Text="追加" ContentLayout="Left,5" HorizontalOptions="End" BackgroundColor="Red" />
             </StackLayout>
             <!-- 保存・削除ボタン -->
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Margin="20">
