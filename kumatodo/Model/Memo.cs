@@ -13,9 +13,6 @@ namespace kumatodo.Model
         // 入力内容
         public string Text { get; set; }
 
-        // 完了 or 未完了
-        public bool Done { get; set; }
-
         // 作成日時
         public DateTime Created { get; set; }
 
