@@ -18,12 +18,16 @@
                                     <!-- チェックボックスを表示する領域 -->
                                     <ColumnDefinition Width="30"/>
                                     <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="70"/>
                                 </Grid.ColumnDefinitions>
                                 <CheckBox IsChecked="{Binding IsChecked}"
                                       Grid.Column="0"/>
                                 <Label Text="{Binding Text}"
                                    Grid.Column="1"
                                    VerticalOptions="Center"/>
+                                <Label Text="{Binding DisplayCreated}"
+                                   Grid.Column="2" FontSize="11"
+                                   VerticalOptions="End"/>
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -38,9 +42,9 @@
                 <Button Text="追加" ContentLayout="Left,5" HorizontalOptions="End" BackgroundColor="Red" />
             </StackLayout>
             <!-- 保存・削除ボタン -->
-            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Margin="20">
-                <Button Text="保存" BackgroundColor="LightSeaGreen" />
-                <Button Text="削除" BackgroundColor="MediumVioletRed" />
+            <StackLayout VerticalOptions="Center" Orientation="Horizontal" Margin="20">
+                <Button Text="保存" BackgroundColor="LightSeaGreen" HorizontalOptions="CenterAndExpand" />
+                <Button Text="削除" BackgroundColor="MediumVioletRed" HorizontalOptions="CenterAndExpand" />
             </StackLayout>
         </StackLayout>
     </StackLayout>

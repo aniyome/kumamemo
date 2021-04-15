@@ -7,6 +7,7 @@ namespace kumatodo.Model
         public Memo(string text)
         {
             Text = text;
+            Created = DateTime.Now;
         }
 
         // 入力内容
@@ -17,5 +18,8 @@ namespace kumatodo.Model
 
         // 作成日時
         public DateTime Created { get; set; }
+
+        // 表示用作成日時
+        public string DisplayCreated => Created.ToString("yyyy/MM/dd");
     }
 }
