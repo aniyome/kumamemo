@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Visual="Material"
+             x:Class="kumatodo.MainPage">
+
+    <StackLayout>
+        <!-- メモ表示部 -->
+        <StackLayout Margin="20">
+            <ListView x:Name="Memos"
+            ItemsSource="{Binding Memos}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <!-- 2行１列のグリッドを作成 -->
+                                <Grid.ColumnDefinitions>
+                                    <!-- チェックボックスを表示する領域 -->
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox IsChecked="{Binding IsChecked}"
+                                      Grid.Column="0"/>
+                                <Label Text="{Binding Text}"
+                                   Grid.Column="1"
+                                   VerticalOptions="Center"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        <!-- ボタンとテキスト入力部 -->
+        <StackLayout Margin="20" VerticalOptions="End">
+            <!-- メモ入力 -->
+            <StackLayout VerticalOptions="Center" Orientation="Horizontal">
+                <Entry Text="" HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <!-- 保存・削除ボタン -->
+            <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Orientation="Horizontal" Margin="20">
+                <Button Text="保存" BackgroundColor="LightSeaGreen" />
+                <Button Text="削除" BackgroundColor="MediumVioletRed" />
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>
