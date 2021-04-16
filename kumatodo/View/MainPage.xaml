@@ -38,13 +38,17 @@
         <StackLayout Margin="20" VerticalOptions="End">
             <!-- メモ入力 -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal">
-                <Entry Text="" HorizontalOptions="FillAndExpand" />
-                <Button Text="追加" ContentLayout="Left,5" HorizontalOptions="End" BackgroundColor="Red" />
+                <Entry Text="{Binding AddMemoText}" HorizontalOptions="FillAndExpand" />
+                <Button Text="追加"
+                        ContentLayout="Left,5"
+                        HorizontalOptions="End"
+                        BackgroundColor="Red"
+                        Command="{Binding AddMemoCommand}" />
             </StackLayout>
             <!-- 保存・削除ボタン -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal" Margin="20">
                 <Button Text="保存" BackgroundColor="LightSeaGreen" HorizontalOptions="CenterAndExpand" />
-                <Button Text="削除" BackgroundColor="MediumVioletRed" HorizontalOptions="CenterAndExpand" />
+                <Button Text="削除" BackgroundColor="MediumVioletRed" HorizontalOptions="CenterAndExpand" Command="{ Binding DeleteMemoCommand }" />
             </StackLayout>
         </StackLayout>
     </StackLayout>
