@@ -38,7 +38,7 @@
         <StackLayout Margin="20" VerticalOptions="End">
             <!-- メモ入力 -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal">
-                <Entry Text="{Binding AddMemoText}" HorizontalOptions="FillAndExpand" />
+                <Entry Text="{Binding AddMemoText}" TextColor="GhostWhite" HorizontalOptions="FillAndExpand" />
                 <Button Text="追加"
                         ContentLayout="Left,5"
                         HorizontalOptions="End"
