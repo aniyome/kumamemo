@@ -4,11 +4,11 @@
              Visual="Material"
              x:Class="kumatodo.MainPage">
 
-    <StackLayout>
+    <StackLayout BackgroundColor="White">
         <!-- メモ表示部 -->
         <StackLayout Margin="20">
             <ListView x:Name="Memos"
-            ItemsSource="{Binding Memos}">
+            ItemsSource="{Binding Memos, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -35,12 +35,11 @@
             </ListView>
         </StackLayout>
         <!-- ボタンとテキスト入力部 -->
-        <StackLayout Margin="20" VerticalOptions="End">
+        <StackLayout Margin="20">
             <!-- メモ入力 -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal">
-                <Entry Text="{Binding AddMemoText}" TextColor="GhostWhite" HorizontalOptions="FillAndExpand" />
+                <Entry Text="{Binding AddMemoText}" HorizontalOptions="FillAndExpand" FontSize="Small" />
                 <Button Text="追加"
-                        ContentLayout="Left,5"
                         HorizontalOptions="End"
                         BackgroundColor="Red"
                         Command="{Binding AddMemoCommand}" />

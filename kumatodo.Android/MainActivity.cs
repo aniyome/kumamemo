@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Xamarin.Forms;
+using AndroidX.AppCompat.App;
 
 namespace kumatodo.Droid
 {
@@ -18,6 +19,7 @@ namespace kumatodo.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             FormsMaterial.Init(this, savedInstanceState);
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
             LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

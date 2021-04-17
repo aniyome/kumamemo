@@ -3,55 +3,65 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using kumatodo.Persistence;
 using kumatodo.Model;
 using Xamarin.Forms;
+using System.Threading.Tasks;
 
 namespace kumatodo.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        /// <summary>
-        /// メモ一覧
-        /// </summary>
-        private ObservableCollection<Memo> _memos = new ObservableCollection<Memo>() {};
+        // メモデータ用ストア
+        private readonly IMemoStore _memoStore;
 
-        /// <summary>
-        /// メモへの入力フォーム内容
-        /// </summary>
-        private string _addMemoText = "";
+        // データロード完了フラグ
+        private bool _isDataLoaded;
 
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IMemoStore memoStore)
         {
+            // メモデータ用のストア
+            _memoStore = memoStore;
+
+            // データロードのコマンド
+            LoadDataCommand = new Command(async () => await LoadData());
+
             // メモ追加ボタンのコマンド
             AddMemoCommand = new Command<string>(
                                 execute: (string arg) =>
                                 {
                                     // メモを追加
-                                    _memos.Add(new Memo(_addMemoText));
+                                    Memo memo = new Memo();
+                                    memo.Text = _addMemoText;
+
                                     // 追加したメモを画面に反映
-                                    Memos = _memos;
+                                    Memos.Add(memo);
+
+                                    //// 追加したメモを画面に反映
+                                    //Memos = _memos;
+
                                     // テキストボックスを初期化
                                     AddMemoText = "";
+
+                                    // TODO データベースに追加
+                                    _memoStore.AddMemo(memo);
                                 }
                             );
             // メモ削除ボタンのコマンド
             DeleteMemoCommand = new Command<string>(
                                 execute: (string arg) =>
                                 {
-                                    // チェックされていないものだけ絞り込む
-                                    var query = _memos.Where(x => x.IsChecked != true);
-                                    // 再生成後のObservableCollectionを定義
-                                    ObservableCollection<Memo> memos = new ObservableCollection<Memo>() { };
-                                    // 絞り込んだ要素でメモを再生成
-                                    foreach (Memo i in query)
+                                    // チェックされているものだけ絞り込む
+                                    var query = Memos.Where(x => x.IsChecked == true).ToList();
+
+                                    // チェックされているものだけを削除する
+                                    foreach (Memo memo in query)
                                     {
-                                        memos.Add(i);
+                                        Memos.Remove(memo);
                                     }
-                                    // 生成したリストを画面に反映させる
-                                    Memos = memos;
                                 }
                             );
         }
@@ -59,15 +69,7 @@ namespace kumatodo.ViewModel
         /// <summary>
         /// メモ一覧
         /// </summary>
-        public ObservableCollection<Memo> Memos
-        {
-            get { return _memos; }
-            set
-            {
-                _memos = value;
-                OnPropertyChanged(nameof(Memos));
-            }
-        }
+        public ObservableCollection<Memo> Memos { get; private set; } = new ObservableCollection<Memo>();
 
         /// <summary>
         /// Entryへの入力内容
@@ -82,6 +84,7 @@ namespace kumatodo.ViewModel
                 OnPropertyChanged(nameof(AddMemoText));
             }
         }
+        private string _addMemoText = "";
 
         /// <summary>
         /// メモ追加
@@ -92,5 +95,29 @@ namespace kumatodo.ViewModel
         /// メモ削除
         /// </summary>
         public ICommand DeleteMemoCommand { get; }
+
+        /// <summary>
+        /// データロード
+        /// </summary>
+        public ICommand LoadDataCommand { get; private set; }
+
+        /// <summary>
+        /// 初期表示データロード
+        /// </summary>
+        /// <returns></returns>
+        private async Task LoadData()
+        {
+            //if (_isDataLoaded)
+            //    return;
+
+            _isDataLoaded = true;
+            var memos = await _memoStore.GetMemosAsync();
+
+            foreach (Memo m in memos)
+            {
+                Memos.Add(m);
+            }
+            Console.WriteLine("LoadData");
+        }
     }
 }
