@@ -30,40 +30,10 @@ namespace kumatodo.ViewModel
             LoadDataCommand = new Command(async () => await LoadData());
 
             // メモ追加ボタンのコマンド
-            AddMemoCommand = new Command<string>(
-                                execute: (string arg) =>
-                                {
-                                    // メモを追加
-                                    Memo memo = new Memo();
-                                    memo.Text = _addMemoText;
+            AddMemoCommand = new Command(() => AddMemo());
 
-                                    // 追加したメモを画面に反映
-                                    Memos.Add(memo);
-
-                                    //// 追加したメモを画面に反映
-                                    //Memos = _memos;
-
-                                    // テキストボックスを初期化
-                                    AddMemoText = "";
-
-                                    // TODO データベースに追加
-                                    _memoStore.AddMemo(memo);
-                                }
-                            );
             // メモ削除ボタンのコマンド
-            DeleteMemoCommand = new Command<string>(
-                                execute: (string arg) =>
-                                {
-                                    // チェックされているものだけ絞り込む
-                                    var query = Memos.Where(x => x.IsChecked == true).ToList();
-
-                                    // チェックされているものだけを削除する
-                                    foreach (Memo memo in query)
-                                    {
-                                        Memos.Remove(memo);
-                                    }
-                                }
-                            );
+            DeleteMemoCommand = new Command(() => DeleteMemo());
         }
 
         /// <summary>
@@ -118,6 +88,43 @@ namespace kumatodo.ViewModel
                 Memos.Add(m);
             }
             Console.WriteLine("LoadData");
+        }
+
+        /// <summary>
+        /// メモ追加
+        /// </summary>
+        private void AddMemo()
+        {
+            // メモを追加
+            Memo memo = new Memo();
+            memo.Text = _addMemoText;
+
+            // 追加したメモを画面に反映
+            Memos.Add(memo);
+
+            //// 追加したメモを画面に反映
+            //Memos = _memos;
+
+            // テキストボックスを初期化
+            AddMemoText = "";
+
+            // TODO データベースに追加
+            _memoStore.AddMemo(memo);
+        }
+
+        /// <summary>
+        /// メモ削除
+        /// </summary>
+        private void DeleteMemo()
+        {
+            // チェックされているものだけ絞り込む
+            var query = Memos.Where(x => x.IsChecked == true).ToList();
+
+            // チェックされているものだけを削除する
+            foreach (Memo memo in query)
+            {
+                Memos.Remove(memo);
+            }
         }
     }
 }
