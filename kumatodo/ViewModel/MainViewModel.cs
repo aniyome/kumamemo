@@ -15,9 +15,6 @@ namespace kumatodo.ViewModel
         // メモデータ用ストア
         private readonly IMemoStore _memoStore;
 
-        // データロード完了フラグ
-        private bool _isDataLoaded;
-
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -75,25 +72,21 @@ namespace kumatodo.ViewModel
         /// 初期表示データロード
         /// </summary>
         /// <returns></returns>
-        private async Task LoadData()
+        public async Task LoadData()
         {
-            //if (_isDataLoaded)
-            //    return;
-
-            _isDataLoaded = true;
+            // メモデータを全件取得
             var memos = await _memoStore.GetMemosAsync();
 
             foreach (Memo m in memos)
             {
                 Memos.Add(m);
             }
-            Console.WriteLine("LoadData");
         }
 
         /// <summary>
         /// メモ追加
         /// </summary>
-        private void AddMemo()
+        public void AddMemo()
         {
             // メモを追加
             Memo memo = new Memo();
@@ -107,15 +100,12 @@ namespace kumatodo.ViewModel
 
             // テキストボックスを初期化
             AddMemoText = "";
-
-            // TODO データベースに追加
-            _memoStore.AddMemo(memo);
         }
 
         /// <summary>
         /// メモ削除
         /// </summary>
-        private void DeleteMemo()
+        public void DeleteMemo()
         {
             // チェックされているものだけ絞り込む
             var query = Memos.Where(x => x.IsChecked == true).ToList();
