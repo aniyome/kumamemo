@@ -21,7 +21,7 @@ namespace kumatodo
             vm = new MainViewModel(memoStore);
 
             // ViewModelをViewにDataBindingする
-            BindingContext = new MainViewModel(memoStore);
+            BindingContext = vm;
 
             InitializeComponent();
         }

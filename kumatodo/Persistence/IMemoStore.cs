@@ -34,5 +34,12 @@ namespace kumatodo.Persistence
         /// <returns></returns>
         Task DeleteMemo(Memo memo);
 
+        /// <summary>
+        /// メモを更新
+        /// </summary>
+        /// <param name="memo"></param>
+        /// <returns></returns>
+        Task UpdateMemo(Memo memo);
+
     }
 }

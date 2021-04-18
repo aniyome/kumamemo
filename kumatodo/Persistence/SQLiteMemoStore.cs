@@ -36,5 +36,10 @@ namespace kumatodo.Persistence
         {
             return await _connection.FindAsync<Memo>(id);
         }
+
+        public async Task UpdateMemo(Memo memo)
+        {
+            await _connection.UpdateAsync(memo);
+        }
     }
 }

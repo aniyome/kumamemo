@@ -46,8 +46,9 @@
             </StackLayout>
             <!-- 保存・削除ボタン -->
             <StackLayout VerticalOptions="Center" Orientation="Horizontal" Margin="20">
-                <Button Text="保存" BackgroundColor="LightSeaGreen" HorizontalOptions="CenterAndExpand" />
+                <Button Text="保存" BackgroundColor="LightSeaGreen" HorizontalOptions="CenterAndExpand"  Command="{ Binding SaveMemoCommand }" />
                 <Button Text="削除" BackgroundColor="MediumVioletRed" HorizontalOptions="CenterAndExpand" Command="{ Binding DeleteMemoCommand }" />
+                <Button Text="全選択" BackgroundColor="CornflowerBlue" HorizontalOptions="CenterAndExpand" Command="{ Binding AllSelectMemoCommand }" />
             </StackLayout>
         </StackLayout>
     </StackLayout>

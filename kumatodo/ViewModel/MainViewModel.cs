@@ -30,7 +30,13 @@ namespace kumatodo.ViewModel
             AddMemoCommand = new Command(() => AddMemo());
 
             // メモ削除ボタンのコマンド
-            DeleteMemoCommand = new Command(() => DeleteMemo());
+            DeleteMemoCommand = new Command(async () => await DeleteMemoAsync());
+
+            // 全選択ボタンのコマンド
+            AllSelectMemoCommand = new Command(() => AllSelectMemo());
+
+            // 保存ボタンのコマンド
+            SaveMemoCommand = new Command(async () => await SaveMemo());
         }
 
         /// <summary>
@@ -56,12 +62,12 @@ namespace kumatodo.ViewModel
         /// <summary>
         /// メモ追加
         /// </summary>
-        public ICommand AddMemoCommand { get; }
+        public ICommand AddMemoCommand { get; private set; }
 
         /// <summary>
         /// メモ削除
         /// </summary>
-        public ICommand DeleteMemoCommand { get; }
+        public ICommand DeleteMemoCommand { get; private set; }
 
         /// <summary>
         /// データロード
@@ -69,10 +75,20 @@ namespace kumatodo.ViewModel
         public ICommand LoadDataCommand { get; private set; }
 
         /// <summary>
+        /// 全選択
+        /// </summary>
+        public ICommand AllSelectMemoCommand { get; private set; }
+
+        /// <summary>
+        /// メモ保存
+        /// </summary>
+        public ICommand SaveMemoCommand { get; private set; }
+
+        /// <summary>
         /// 初期表示データロード
         /// </summary>
         /// <returns></returns>
-        public async Task LoadData()
+        private async Task LoadData()
         {
             // メモデータを全件取得
             var memos = await _memoStore.GetMemosAsync();
@@ -86,7 +102,7 @@ namespace kumatodo.ViewModel
         /// <summary>
         /// メモ追加
         /// </summary>
-        public void AddMemo()
+        private void AddMemo()
         {
             // メモを追加
             Memo memo = new Memo();
@@ -102,7 +118,7 @@ namespace kumatodo.ViewModel
         /// <summary>
         /// メモ削除
         /// </summary>
-        public void DeleteMemo()
+        private async Task DeleteMemoAsync()
         {
             // チェックされているものだけ絞り込む
             var query = MemoList.Where(x => x.IsChecked == true).ToList();
@@ -110,7 +126,42 @@ namespace kumatodo.ViewModel
             // チェックされているものだけを削除する
             foreach (Memo memo in query)
             {
+                // データベースから削除
+                await _memoStore.DeleteMemo(memo);
+
+                // 画面から削除
                 MemoList.Remove(memo);
+            }
+        }
+
+        /// <summary>
+        /// 全選択
+        /// </summary>
+        private void AllSelectMemo()
+        {
+            var memos = new ObservableCollection<Memo>(MemoList.Select(x => { x.IsChecked = true; return x; }).ToList());
+            MemoList.Clear();
+            foreach (Memo m in memos)
+            {
+                MemoList.Add(m);
+            }
+        }
+
+        /// <summary>
+        /// メモ保存
+        /// </summary>
+        private async Task SaveMemo()
+        {
+            foreach (Memo memo in MemoList)
+            {
+                if (memo.ID == 0)
+                {
+                    await _memoStore.AddMemo(memo);
+                }
+                else
+                {
+                    await _memoStore.UpdateMemo(memo);
+                }
             }
         }
     }
