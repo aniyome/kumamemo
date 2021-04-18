@@ -36,7 +36,7 @@ namespace kumatodo.ViewModel
         /// <summary>
         /// メモ一覧
         /// </summary>
-        public ObservableCollection<Memo> Memos { get; private set; } = new ObservableCollection<Memo>();
+        public ObservableCollection<Memo> MemoList { get; private set; } = new ObservableCollection<Memo>();
 
         /// <summary>
         /// Entryへの入力内容
@@ -79,7 +79,7 @@ namespace kumatodo.ViewModel
 
             foreach (Memo m in memos)
             {
-                Memos.Add(m);
+                MemoList.Add(m);
             }
         }
 
@@ -93,10 +93,7 @@ namespace kumatodo.ViewModel
             memo.Text = _addMemoText;
 
             // 追加したメモを画面に反映
-            Memos.Add(memo);
-
-            //// 追加したメモを画面に反映
-            //Memos = _memos;
+            MemoList.Add(memo);
 
             // テキストボックスを初期化
             AddMemoText = "";
@@ -108,12 +105,12 @@ namespace kumatodo.ViewModel
         public void DeleteMemo()
         {
             // チェックされているものだけ絞り込む
-            var query = Memos.Where(x => x.IsChecked == true).ToList();
+            var query = MemoList.Where(x => x.IsChecked == true).ToList();
 
             // チェックされているものだけを削除する
             foreach (Memo memo in query)
             {
-                Memos.Remove(memo);
+                MemoList.Remove(memo);
             }
         }
     }

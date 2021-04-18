@@ -8,7 +8,7 @@
         <!-- メモ表示部 -->
         <StackLayout Margin="20">
             <ListView x:Name="Memos"
-            ItemsSource="{Binding Memos, Mode=TwoWay}">
+            ItemsSource="{Binding MemoList, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
